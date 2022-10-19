@@ -1,4 +1,4 @@
-import Animation from './escenas/animation.js';
+import Maingame from './escenas/maingame.js';
 import Title from './escenas/title.js';
 import Gameover from './escenas/gameover.js'
 /**
@@ -29,7 +29,7 @@ let config = {
         },
 		zoom: 1
     },
-    scene: [Title, Animation, Gameover],
+    scene: [Title, Maingame, Gameover],
     physics: { 
         default: 'arcade', 
         arcade: { 
@@ -44,8 +44,7 @@ let config = {
         }
     },
     title: "Prueba de concepto",
-    version: "1.0.0",
-    transparent: false
+    version: "1.0.2"
 };
 
 new Phaser.Game(config);

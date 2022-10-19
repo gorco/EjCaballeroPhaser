@@ -40,7 +40,7 @@ export default class Title extends Phaser.Scene {
 	    });
 
 	    sprite.on('pointerup', pointer => {
-			this.scene.start('animation'); //Cambiamos a la escena de juego
+			this.scene.start('maingame'); //Cambiamos a la escena de juego
 
 	    });
 

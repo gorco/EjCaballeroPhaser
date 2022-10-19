@@ -9,7 +9,7 @@ import Box from '../objetos/box.js';
 export default class Animation extends Phaser.Scene {
 	
 	constructor() {
-		super({ key: 'animation' });
+		super({ key: 'maingame' });
 	}
 	
 	preload(){
