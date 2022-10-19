@@ -22,6 +22,10 @@ export default class Animation extends Phaser.Scene {
 	* Creación de los elementos de la escena principal de juego
 	*/
 	create() {
+
+		this.maxBoxes = document.getElementById('targetBox');
+		this.maxTime = document.getElementById('targetTime');
+
 		console.log("me he creado", this.scene.key);
 
 		//Imagen de fondo
@@ -70,7 +74,7 @@ export default class Animation extends Phaser.Scene {
 	}
 
 	update(time, dt){
-		if ( time > 30*1000 || this.score >= 5) { // Si pasan 30 segundos o se destruyen 5 cajas termina el juego
+		if ( time > this.maxTime.value*1000 || this.score >= this.maxBoxes.value) { // Si pasan 30 segundos o se destruyen 5 cajas termina el juego
 			this.scene.pause(this.scene.key); // paramos la escena actual para evitar su movimiento
 			this.scene.launch('gameover')     // lanzamos encima la escena 'gameover' (convivirá con la escena actual)
 		}
