@@ -64,6 +64,7 @@ export default class Box extends Phaser.GameObjects.Sprite {
 
 		// Si es necesario, la caja la destruimos al final del update para evitar errores
 		if(this.toDestroy){
+			this.scene.score++;
 			this.destroy();
 		}
 

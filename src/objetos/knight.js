@@ -63,6 +63,7 @@ export default class Knight extends Phaser.GameObjects.Sprite {
 		
 		this.body.setOffset(this.bodyOffset, 0);
 		this.body.width = this.bodyWidth;
+
 	}
 
 	/**

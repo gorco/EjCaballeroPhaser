@@ -3,7 +3,7 @@ import Floor from '../objetos/floor.js';
 import Box from '../objetos/box.js';
 
 /**
- * Escena principal.
+ * Escena principal de juego.
  * @extends Phaser.Scene
  */
 export default class Animation extends Phaser.Scene {
@@ -22,6 +22,7 @@ export default class Animation extends Phaser.Scene {
 	* Creación de los elementos de la escena principal de juego
 	*/
 	create() {
+		console.log("me he creado", this.scene.key);
 
 		//Imagen de fondo
 		this.add.image(0, 0, 'castle').setOrigin(0, 0);
@@ -40,7 +41,7 @@ export default class Animation extends Phaser.Scene {
 		
 		this.physics.add.collider(knight, floor, function(){
 			if(scene.physics.world.overlap(knight, floor)) {
-				knight.enableJump(); // Hemos tocado el juego
+				knight.enableJump(); // Hemos tocado el suelo, permitimos volver a saltar
 			}
 		});
 
@@ -64,6 +65,16 @@ export default class Animation extends Phaser.Scene {
 				} 				
 			}
 		});	
+
+		this.score = 0;
+	}
+
+	update(time, dt){
+		if ( time > 30*1000 || this.score >= 5) { // Si pasan 30 segundos o se destruyen 5 cajas termina el juego
+			this.scene.pause(this.scene.key); // paramos la escena actual para evitar su movimiento
+			this.scene.launch('gameover')     // lanzamos encima la escena 'gameover' (convivirá con la escena actual)
+		}
+
 	}
 
 }

@@ -1,12 +1,16 @@
 import Animation from './escenas/animation.js';
-import Title from './escenas/title.js'
+import Title from './escenas/title.js';
+import Gameover from './escenas/gameover.js'
 /**
  * Inicio del juego en Phaser. Creamos el archivo de configuración del juego y creamos
  * la clase Game de Phaser, encargada de crear e iniciar el juego.
+ * Doc: https://photonstorm.github.io/phaser3-docs/Phaser.Types.Core.html#.GameConfig
  */
 let config = {
-    type: Phaser.CANVAS,
-    canvas: document.getElementById("juego"),
+    type: Phaser.AUTO,
+    parent: 'juego',
+    // type: Phaser.CANVAS,
+    // canvas: document.getElementById("juego"),
     width:  656,
     height: 376,
     pixelArt: true,
@@ -25,7 +29,7 @@ let config = {
         },
 		zoom: 1
     },
-    scene: [Title, Animation],
+    scene: [Title, Animation, Gameover],
     physics: { 
         default: 'arcade', 
         arcade: { 
@@ -38,7 +42,10 @@ let config = {
             left: true,
             right: true
         }
-    }
+    },
+    title: "Prueba de concepto",
+    version: "1.0.0",
+    transparent: false
 };
 
 new Phaser.Game(config);

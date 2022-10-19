@@ -1,5 +1,5 @@
 /**
- * Escena de Menú.
+ * Escena de Título.
  * @extends Phaser.Scene
  */
 export default class Title extends Phaser.Scene {
@@ -25,6 +25,8 @@ export default class Title extends Phaser.Scene {
 	* Creación de los elementos de la escena principal de juego
 	*/
 	create() {
+		console.log("me he creado", this.scene.key);
+
 		//Pintamos un fondo
 		var back = this.add.image(0, 0, 'castle').setOrigin(0, 0);
 
@@ -34,19 +36,20 @@ export default class Title extends Phaser.Scene {
 
 		// Escuchamos los eventos del ratón cuando interactual con nuestro sprite de "Start"
 	    sprite.on('pointerdown', pointer => {
-	    	console.log("pulsando");
+	    	// console.log("pulsando");
 	    });
 
 	    sprite.on('pointerup', pointer => {
 			this.scene.start('animation'); //Cambiamos a la escena de juego
+
 	    });
 
 		sprite.on('pointerover', () => {
-			console.log("hola")
+			// console.log('puntero dentro')
 	    });
 
 	    sprite.on('pointerout', () => {
-			console.log("adios")
+			// console.log('puntero fuera')
 	    });
 
 	}
