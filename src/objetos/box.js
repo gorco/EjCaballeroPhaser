@@ -4,27 +4,17 @@ export default class Box extends Phaser.GameObjects.Sprite {
 	 * @param {Scene} scene - escena en la que aparece
 	 * @param {number} x - coordenada x
 	 * @param {number} y - coordenada y
+	 * @param {Group} colliderGroup - grupo de objetos con sollider
 	 */
 	constructor(scene, x, y, colliderGroup) {
 		super(scene, x, y, 'box');
 		this.setScale(0.5,.5);
-		this.scene.add.existing(this); //Añadimos la caja a la escena
+		this.scene.add.existing(this, true); //Añadimos la caja a la escena con 'true' para marcar que es un objeto estático, servirá de suelo
 
-		// Creamos las animaciones de nuestra caja
-		this.scene.anims.create({
-			key: 'none',
-			frames: scene.anims.generateFrameNumbers('box', {start:0, end:0}),
-			frameRate: 5,
-			repeat: -1
-		});
-		this.scene.anims.create({
-			key: 'hit',
-			frames: scene.anims.generateFrameNumbers('box', {start:1, end:4}),
-			frameRate: 18,
-			repeat: 0
-		});
-
-		// Si la animación de ataque se completa pasamos a ejecutar la animación 'idle'
+		/*
+		 * Si la animación de la caja siendo destruida se completa 
+		 * creamos una nueva caja y marcamos que la actual debe desaparecer
+		 */
 		this.on('animationcomplete', end => {
 			if (this.anims.currentAnim.key === 'hit'){
 				new Box(scene, Phaser.Math.Between(50, scene.sys.game.canvas.width-100),20, colliderGroup);
@@ -33,13 +23,12 @@ export default class Box extends Phaser.GameObjects.Sprite {
 			}
 		})
 
-		this.play('none');
-
 		// Agregamos la caja a las físicas para que Phaser lo tenga en cuenta
-		scene.physics.add.existing(this);
+		this.scene.physics.add.existing(this);
 
 		// Decimos que la caja colisiona con los límites del mundo
 		this.body.setCollideWorldBounds();
+		this.body.setBounce(2,2);
 
 		colliderGroup.add(this);
 	}
@@ -71,7 +60,7 @@ export default class Box extends Phaser.GameObjects.Sprite {
 	}
 
 	/**
-	 * Cambiamos la propiedad jumpDisabled a true para indicar que el personaje no puede saltar
+	 * Ejecutamos la animación de la caja siendo destruida
 	 */
 	destroyMe(){
 		this.play('hit');

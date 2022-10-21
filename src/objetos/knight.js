@@ -9,7 +9,6 @@ export default class Knight extends Phaser.GameObjects.Sprite {
 		super(scene, x, y, 'knight');
 		this.speed = 140; // Nuestra velocidad de movimiento será 140
 
-		this.disableJump(); // Por defecto no podemos saltar hasta que estemos en una plataforma del juego
 		this.isAttacking = false;
 
 		this.scene.add.existing(this); //Añadimos el caballero a la escena
@@ -116,9 +115,8 @@ export default class Knight extends Phaser.GameObjects.Sprite {
 
 		// Si pulsamos 'W' haremos que el personaje salte
 		// Mientras saltamos no podremos volver a saltar ni atacar
-		if(Phaser.Input.Keyboard.JustDown(this.wKey) && !this.jumpDisabled){
-			this.disableJump();
-			this.disa
+		// Comprobamos si estamos sobre un "suelo";
+		if(this.wKey.isDown && this.body.onFloor() && !this.jumpDisabled){
 			this.isAttacking = false;
 			this.body.setVelocityY(-this.speed);
 		}
@@ -148,12 +146,13 @@ export default class Knight extends Phaser.GameObjects.Sprite {
 	 */
 	attack(){
 		this.isAttacking = true;
-		this.play('attack');
+		
 		// Ajustamos el "collider" de nuestro caballero según hacia donde miremos
 		this.body.width = this.bodyWidth*2;
 		if(this.flipX){
 			this.body.setOffset(-this.bodyOffset, 0);
 		} 
+		this.play('attack');
 	}
 
 	/**
