@@ -25,7 +25,6 @@ export default class Title extends Phaser.Scene {
 	* Creación de los elementos de la escena principal de juego
 	*/
 	create() {
-		console.log("me he creado", this.scene.key);
 
 		//Pintamos un fondo
 		var back = this.add.image(0, 0, 'castle').setOrigin(0, 0);

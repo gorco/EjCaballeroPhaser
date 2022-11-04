@@ -1,6 +1,7 @@
 import Maingame from './escenas/maingame.js';
 import Title from './escenas/title.js';
 import Gameover from './escenas/gameover.js'
+
 /**
  * Inicio del juego en Phaser. Creamos el archivo de configuración del juego y creamos
  * la clase Game de Phaser, encargada de crear e iniciar el juego.
@@ -44,7 +45,7 @@ let config = {
         }
     },
     title: "Prueba de concepto",
-    version: "1.0.2"
+    version: "1.1.0"
 };
 
 new Phaser.Game(config);

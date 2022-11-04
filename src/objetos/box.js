@@ -4,12 +4,15 @@ export default class Box extends Phaser.GameObjects.Sprite {
 	 * @param {Scene} scene - escena en la que aparece
 	 * @param {number} x - coordenada x
 	 * @param {number} y - coordenada y
-	 * @param {Group} colliderGroup - grupo de objetos con sollider
+	 * @param {Pool} pool - object pool
 	 */
-	constructor(scene, x, y, colliderGroup) {
+	constructor(scene, x, y, pool) {
 		super(scene, x, y, 'box');
 		this.setScale(0.5,.5);
 		this.scene.add.existing(this, true); //Añadimos la caja a la escena con 'true' para marcar que es un objeto estático, servirá de suelo
+
+		this.pool = pool;
+		this.destroyNow = false;
 
 		/*
 		 * Si la animación de la caja siendo destruida se completa 
@@ -17,9 +20,7 @@ export default class Box extends Phaser.GameObjects.Sprite {
 		 */
 		this.on('animationcomplete', end => {
 			if (this.anims.currentAnim.key === 'hit'){
-				new Box(scene, Phaser.Math.Between(50, scene.sys.game.canvas.width-100),20, colliderGroup);
-				this.setActive(false).setVisible(false);
-				this.toDestroy = true;
+				this.destroyNow = true;
 			}
 		})
 
@@ -28,9 +29,6 @@ export default class Box extends Phaser.GameObjects.Sprite {
 
 		// Decimos que la caja colisiona con los límites del mundo
 		this.body.setCollideWorldBounds();
-		this.body.setBounce(2,2);
-
-		colliderGroup.add(this);
 	}
 
 	/**
@@ -41,6 +39,7 @@ export default class Box extends Phaser.GameObjects.Sprite {
 	 */
 	preUpdate(t, dt) {
 		super.preUpdate(t, dt);
+		
 		if(this.body.velocity.x > 5){
 			this.body.velocity.x -= 5;
 		} else if(this.body.velocity.x < -5){
@@ -51,19 +50,21 @@ export default class Box extends Phaser.GameObjects.Sprite {
 			 this.body.velocity.x = 0;
 		}
 
-		// Si es necesario, la caja la destruimos al final del update para evitar errores
-		if(this.toDestroy){
+		if (this.destroyNow){
 			this.scene.score++;
-			this.destroy();
+			this.body.velocity.x = 0;
+			this.destroyNow = false;
+			this.pool.release(this)
 		}
-
 	}
 
 	/**
 	 * Ejecutamos la animación de la caja siendo destruida
 	 */
 	destroyMe(){
-		this.play('hit');
-
+		if (this.anims.currentAnim && this.anims.currentAnim.key !== 'hit'){
+			this.play('hit');
+		}
 	}
 }
+

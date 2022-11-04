@@ -17,7 +17,6 @@ export default class Gameover extends Phaser.Scene {
 	* Creación de los elementos de la escena principal de juego
 	*/
 	create() {
-		console.log("me he creado", this.scene.key);
 
 		var sprite = this.add.image(this.sys.game.canvas.width/2, 20, 'end').setOrigin(0.5,0)
 		sprite.setInteractive(); // Hacemos el sprite interactivo para que lance eventos
